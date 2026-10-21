@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import '../models/login_request.dart';
+import '../services/auth_service.dart';
+
+class LoginViewModel extends ChangeNotifier {
+  LoginViewModel({AuthService? authService})
+      : _authService = authService ?? AuthService();
+
+  final AuthService _authService;
+
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  bool _rememberMe = false;
+  bool _obscurePassword = true;
+  bool _isLoading = false;
+  String? _errorMessage;
+
+  bool get rememberMe => _rememberMe;
+  bool get obscurePassword => _obscurePassword;
+  bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
+
+  void toggleRememberMe(bool? value) {
+    _rememberMe = value ?? false;
+    notifyListeners();
+  }
+
+  void togglePasswordVisibility() {
+    _obscurePassword = !_obscurePassword;
+    notifyListeners();
+  }
+
+  Future<bool> login() async {
+    if (!(formKey.currentState?.validate() ?? false)) return false;
+
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      return await _authService.login(
+        LoginRequest(
+          email: emailController.text.trim(),
+          password: passwordController.text,
+          rememberMe: _rememberMe,
+        ),
+      );
+    } catch (_) {
+      _errorMessage = 'Gagal masuk. Silakan coba lagi.';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loginWithSocial(String providerName) async {
+    _isLoading = true;
+    notifyListeners();
+    await _authService.loginWithSocial(providerName);
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+}
