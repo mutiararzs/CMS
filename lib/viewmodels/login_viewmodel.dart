@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/login_request.dart';
-import '../services/auth_service.dart';
+import '../services/auth_services.dart';
 
 class LoginViewModel extends ChangeNotifier {
   LoginViewModel({AuthService? authService})
@@ -15,6 +15,7 @@ class LoginViewModel extends ChangeNotifier {
   bool _rememberMe = false;
   bool _obscurePassword = true;
   bool _isLoading = false;
+  bool _disposed = false;
   String? _errorMessage;
 
   bool get rememberMe => _rememberMe;
@@ -33,6 +34,8 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<bool> login() async {
+    // Cegah submit ganda saat proses login masih berjalan.
+    if (_isLoading) return false;
     if (!(formKey.currentState?.validate() ?? false)) return false;
 
     _isLoading = true;
@@ -40,15 +43,19 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      return await _authService.login(
+      final success = await _authService.login(
         LoginRequest(
           email: emailController.text.trim(),
           password: passwordController.text,
           rememberMe: _rememberMe,
         ),
       );
+      if (!success) {
+        _errorMessage = 'Email atau kata sandi salah.';
+      }
+      return success;
     } catch (_) {
-      _errorMessage = 'Gagal masuk. Silakan coba lagi.';
+      _errorMessage = 'Gagal masuk. Periksa koneksi internet lalu coba lagi.';
       return false;
     } finally {
       _isLoading = false;
@@ -57,15 +64,32 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<void> loginWithSocial(String providerName) async {
+    if (_isLoading) return;
+
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
-    await _authService.loginWithSocial(providerName);
-    _isLoading = false;
-    notifyListeners();
+
+    try {
+      await _authService.loginWithSocial(providerName);
+    } catch (_) {
+      _errorMessage = 'Gagal masuk dengan $providerName. Silakan coba lagi.';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Hindari error "notifyListeners after dispose" jika halaman sudah ditutup
+  // saat proses async masih berjalan.
+  @override
+  void notifyListeners() {
+    if (!_disposed) super.notifyListeners();
   }
 
   @override
   void dispose() {
+    _disposed = true;
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
