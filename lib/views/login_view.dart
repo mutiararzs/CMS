@@ -6,10 +6,14 @@ import 'package:provider/provider.dart';
 
 import '../utils/login_colors.dart';
 import '../utils/validators.dart';
+import '../viewmodels/home_viewmodel.dart';
 import '../viewmodels/login_viewmodel.dart';
+import '../viewmodels/profile_viewmodel.dart';
 import '../viewmodels/register_viewmodel.dart';
+import '../viewmodels/riwayat_viewmodel.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/social_button.dart';
+import 'home_view.dart';
 import 'register_view.dart';
 
 class LoginView extends StatefulWidget {
@@ -27,9 +31,18 @@ class _LoginViewState extends State<LoginView> {
     final ok = await vm.login();
     if (!mounted) return;
     if (ok) {
-      // TODO: arahkan ke halaman berikutnya setelah login berhasil.
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login berhasil')),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => HomeViewModel()),
+              ChangeNotifierProvider(create: (_) => RiwayatViewModel()),
+              ChangeNotifierProvider(create: (_) => ProfileViewModel()),
+            ],
+            child: const HomeView(),
+          ),
+        ),
       );
     }
   }

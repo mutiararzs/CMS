@@ -13,4 +13,13 @@ class LoginColors {
   static const glow = Color(0x2636B5FD);
   static const error = Color(0xFFBA1A1A);
   static const buttonDark = Color(0xFF0D1C32);
+
+  // Beranda
+  static const accent = Color(0xFF36B5FD);
+  static const onAccent = Color(0xFF004465);
+  static const slate = Color(0xFF76849F);
+  static const avatarBg = Color(0xFFDDE9FF);
+  static const iconButtonBg = Color(0xFFE6EEFF);
+
 }
+

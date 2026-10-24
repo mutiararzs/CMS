@@ -31,4 +31,16 @@ class Validators {
     if (value != password) return 'Kata sandi tidak sama';
     return null;
   }
+
+  static String? notEmpty(String? value, String label) {
+    if ((value ?? '').trim().isEmpty) return '$label wajib diisi';
+    return null;
+  }
+
+  static String? phone(String? value) {
+    final digits = (value ?? '').replaceAll(RegExp(r'\D'), '');
+    if (digits.isEmpty) return 'Nomor WhatsApp wajib diisi';
+    if (digits.length < 9 || digits.length > 15) return 'Nomor WhatsApp tidak valid';
+    return null;
+  }
 }
