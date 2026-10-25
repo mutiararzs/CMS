@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../utils/login_colors.dart';
 import '../viewmodels/home_viewmodel.dart';
+import '../viewmodels/informasi_tes_viewmodel.dart';
+import 'informasi_tes_view.dart';
 import 'profile_view.dart';
 import 'riwayat_view.dart';
 
@@ -297,7 +299,15 @@ class _HomeViewState extends State<HomeView> {
                   width: double.infinity,
                   height: 52,
                   child: ElevatedButton(
-                    onPressed: () => _comingSoon('Tes minat & bakat'),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ChangeNotifierProvider(
+                          create: (_) => InformasiTesViewModel(),
+                          child: const InformasiTesView(),
+                        ),
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: LoginColors.accent,
                       foregroundColor: LoginColors.onAccent,

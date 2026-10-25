@@ -19,6 +19,9 @@ class RiwayatItem {
   final IconData? pillIcon;
   final String pillText;
 
+  /// true jika halaman detail hasil untuk tes ini sudah tersedia.
+  final bool hasResultPage;
+
   const RiwayatItem({
     required this.dateText,
     required this.status,
@@ -31,6 +34,7 @@ class RiwayatItem {
     this.pillPrefix,
     this.pillIcon,
     required this.pillText,
+    this.hasResultPage = false,
   });
 
   bool get isDone => status == RiwayatStatus.selesai;
@@ -50,6 +54,7 @@ class RiwayatViewModel extends ChangeNotifier {
       percent: 92,
       pillPrefix: 'Holland:',
       pillText: 'IRE',
+      hasResultPage: true,
     ),
     RiwayatItem(
       dateText: '10 Januari 2024',

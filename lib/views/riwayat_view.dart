@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/login_colors.dart';
+import '../viewmodels/hasil_tes_viewmodel.dart';
 import '../viewmodels/riwayat_viewmodel.dart';
+import 'hasil_tes_view.dart';
 
 /// Isi tab "Riwayat". Ditampilkan di dalam HomeView (tanpa Scaffold sendiri).
 class RiwayatView extends StatefulWidget {
@@ -17,6 +19,22 @@ class RiwayatView extends StatefulWidget {
 
 class _RiwayatViewState extends State<RiwayatView> {
   static const _statusBg = Color(0xFFCAE6FF);
+
+  void _onCardAction(RiwayatItem item) {
+    if (item.isDone && item.hasResultPage) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ChangeNotifierProvider(
+            create: (_) => HasilTesViewModel(),
+            child: const HasilTesView(fromHistory: true),
+          ),
+        ),
+      );
+      return;
+    }
+    _comingSoon(item.isDone ? 'Detail hasil' : 'Lanjutkan tes');
+  }
 
   void _comingSoon(String feature) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -283,7 +301,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                     width: double.infinity,
                     height: 44,
                     child: ElevatedButton(
-                      onPressed: () => _comingSoon(item.isDone ? 'Detail hasil' : 'Lanjutkan tes'),
+                      onPressed: () => _onCardAction(item),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: LoginColors.buttonDark,
                         foregroundColor: Colors.white,
