@@ -10,6 +10,8 @@ import '../viewmodels/informasi_tes_viewmodel.dart';
 import 'informasi_tes_view.dart';
 import 'profile_view.dart';
 import 'riwayat_view.dart';
+import '../viewmodels/notif_viewmodel.dart';
+import 'notif_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -19,12 +21,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  void _comingSoon(String feature) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$feature belum tersedia')),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<HomeViewModel>();
@@ -164,7 +160,15 @@ class _HomeViewState extends State<HomeView> {
           shape: const CircleBorder(),
           child: InkWell(
             customBorder: const CircleBorder(),
-            onTap: () => _comingSoon('Notifikasi'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ChangeNotifierProvider(
+                  create: (_) => NotifikasiViewModel(),
+                  child: const NotifikasiView(),
+                ),
+              ),
+            ),
             child: const SizedBox(
               width: 40,
               height: 40,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'soal_tes_viewmodel.dart';
 
 class HomeViewModel extends ChangeNotifier {
   // TODO: ganti data dummy ini dengan data dari REST API saat backend siap.
   final String name = 'Rizky';
   final String studentInfo = 'Siswa Kelas 12 SMA • IPA';
 
-  final int totalQuestions = 60;
-  final int estimatedMinutes = 25;
+  final int totalQuestions = SoalTesViewModel.questionLimit;
+  final int estimatedMinutes = 5;
   final DateTime assessmentDate = DateTime(2024, 5, 18);
 
   final String lastTestTitle = 'Tes RIASEC Minat & Bakat';

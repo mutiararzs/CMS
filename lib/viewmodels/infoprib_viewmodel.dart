@@ -15,7 +15,7 @@ class InformasiPribadiViewModel extends ChangeNotifier {
   static final classOptions = [
     for (final grade in [10, 11, 12])
       for (final program in ['IPA', 'IPS'])
-        for (final no in [1, 2, 3]) '$grade $program $no',
+        '$grade $program'
   ];
 
   DateTime? _birthDate = DateTime(2007, 5, 15);

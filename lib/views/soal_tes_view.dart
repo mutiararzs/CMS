@@ -26,7 +26,8 @@ class SoalTesView extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Keluar dari tes?'),
-        content: const Text('Jawaban yang sudah diisi akan hilang jika Anda keluar sekarang.'),
+        content: const Text(
+            'Jawaban yang sudah diisi akan hilang jika Anda keluar sekarang.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -51,7 +52,9 @@ class SoalTesView extends StatelessWidget {
     final messenger = ScaffoldMessenger.of(context);
     if (vm.unansweredCount > 0) {
       messenger.showSnackBar(
-        SnackBar(content: Text('Masih ada ${vm.unansweredCount} soal yang belum dijawab')),
+        SnackBar(
+            content: Text(
+                'Masih ada ${vm.unansweredCount} soal yang belum dijawab')),
       );
       return;
     }
@@ -89,6 +92,10 @@ class SoalTesView extends StatelessWidget {
               child: Column(
                 children: [
                   _buildAppBar(context),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 0, 18, 8),
+                    child: _buildNumberPanel(vm),
+                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.fromLTRB(18, 8, 18, 16),
@@ -98,10 +105,11 @@ class SoalTesView extends StatelessWidget {
                           _buildQuestion(vm),
                           const SizedBox(height: 16),
                           _buildOptions(vm),
-                          const SizedBox(height: 16),
-                          _buildTip(),
-                          const SizedBox(height: 16),
-                          _buildNumberPanel(vm),
+                          if (vm.isFirst) ...[
+                            // tips hanya di soal nomor 1
+                            const SizedBox(height: 16),
+                            _buildTip(),
+                          ],
                         ],
                       ),
                     ),
@@ -129,7 +137,8 @@ class SoalTesView extends StatelessWidget {
               child: IconButton(
                 tooltip: 'Kembali',
                 onPressed: () => Navigator.maybePop(context),
-                icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 16, color: _ink),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                    size: 16, color: _ink),
               ),
             ),
             const SizedBox(width: 4),
@@ -199,7 +208,8 @@ class SoalTesView extends StatelessWidget {
             selected: vm.currentAnswer == i + 1,
             onTap: () => vm.selectAnswer(i + 1),
           ),
-          if (i < SoalTesViewModel.scaleLabels.length - 1) const SizedBox(height: 10),
+          if (i < SoalTesViewModel.scaleLabels.length - 1)
+            const SizedBox(height: 10),
         ],
       ],
     );
@@ -251,7 +261,8 @@ class SoalTesView extends StatelessWidget {
                 ),
               ),
               if (selected)
-                const Icon(Icons.check_rounded, size: 16, color: Color(0xFFFFFBFF)),
+                const Icon(Icons.check_rounded,
+                    size: 16, color: Color(0xFFFFFBFF)),
             ],
           ),
         ),
@@ -344,7 +355,8 @@ class SoalTesView extends StatelessWidget {
   Widget _buildNumberCell(SoalTesViewModel vm, int i) {
     final isCurrent = i == vm.index;
     final isAnswered = vm.isAnswered(i);
-    final Color bg = isCurrent ? _slate300 : (isAnswered ? _answered : _slate100);
+    final Color bg =
+        isCurrent ? _slate300 : (isAnswered ? _answered : _slate100);
     final Color fg = (isCurrent || isAnswered) ? _ink : _slate700;
 
     return InkWell(
@@ -356,7 +368,8 @@ class SoalTesView extends StatelessWidget {
         decoration: BoxDecoration(
           color: bg,
           borderRadius: BorderRadius.circular(8),
-          border: (isCurrent || isAnswered) ? null : Border.all(color: _slate300),
+          border:
+              (isCurrent || isAnswered) ? null : Border.all(color: _slate300),
         ),
         child: Text(
           '${i + 1}',
@@ -381,7 +394,8 @@ class SoalTesView extends StatelessWidget {
           Expanded(
             child: _navButton(
               onPressed: vm.isFirst ? null : vm.previous,
-              leading: const Icon(Icons.arrow_back_rounded, size: 14, color: _ink),
+              leading:
+                  const Icon(Icons.arrow_back_rounded, size: 14, color: _ink),
               label: 'SEBELUMNYA',
             ),
           ),
@@ -394,10 +408,13 @@ class SoalTesView extends StatelessWidget {
                   ? const SizedBox(
                       width: 14,
                       height: 14,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: _ink),
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: _ink),
                     )
                   : Icon(
-                      vm.isLast ? Icons.send_rounded : Icons.arrow_forward_rounded,
+                      vm.isLast
+                          ? Icons.send_rounded
+                          : Icons.arrow_forward_rounded,
                       size: 14,
                       color: _ink,
                     ),

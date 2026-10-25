@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'soal_tes_viewmodel.dart';
 
 class TestStat {
   final IconData icon;
@@ -16,8 +17,8 @@ class InformasiTesViewModel extends ChangeNotifier {
       'Asesmen ini dirancang untuk memetakan kepribadian, minat aktivitas, '
       'dan potensi karier ideal berdasarkan teori Holland Code.';
 
-  final int totalQuestions = 60;
-  final int estimatedMinutes = 15;
+  final int totalQuestions = SoalTesViewModel.questionLimit;
+  final int estimatedMinutes = 5;
 
   late final List<TestStat> stats = [
     TestStat(

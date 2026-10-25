@@ -54,6 +54,28 @@ class HasilTesView extends StatelessWidget {
                         _buildCareers(vm),
                         const SizedBox(height: 16),
                         _buildMajors(context, vm),
+                        if (!fromHistory) ...[
+                          const SizedBox(height: 24),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 52,
+                            child: ElevatedButton(
+                              onPressed: () => Navigator.of(context)
+                                  .popUntil((r) => r.isFirst),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: LoginColors.buttonDark,
+                                foregroundColor: Colors.white,
+                                elevation: 0,
+                                shape: const StadiumBorder(),
+                              ),
+                              child: Text(
+                                'Kembali ke Beranda',
+                                style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 14, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -63,7 +85,6 @@ class HasilTesView extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: fromHistory ? null : _buildBottomNav(context),
     );
   }
 
@@ -104,7 +125,8 @@ class HasilTesView extends StatelessWidget {
                 color: LoginColors.avatarBg,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.person, size: 20, color: LoginColors.link),
+              child:
+                  const Icon(Icons.person, size: 20, color: LoginColors.link),
             ),
           ],
         ),
@@ -165,7 +187,8 @@ class HasilTesView extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.event_available_rounded, size: 14, color: LoginColors.link),
+              const Icon(Icons.event_available_rounded,
+                  size: 14, color: LoginColors.link),
               const SizedBox(width: 6),
               Text(
                 'Selesai ${vm.completedDateText}',
@@ -218,7 +241,8 @@ class HasilTesView extends StatelessWidget {
               color: LoginColors.link,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.workspace_premium_rounded, size: 18, color: Colors.white),
+            child: const Icon(Icons.workspace_premium_rounded,
+                size: 18, color: Colors.white),
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -249,7 +273,8 @@ class HasilTesView extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          const Icon(Icons.info_outline_rounded, size: 20, color: LoginColors.link),
+          const Icon(Icons.info_outline_rounded,
+              size: 20, color: LoginColors.link),
         ],
       ),
     );
@@ -268,7 +293,8 @@ class HasilTesView extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.psychology_alt_rounded, size: 18, color: LoginColors.link),
+              const Icon(Icons.psychology_alt_rounded,
+                  size: 18, color: LoginColors.link),
               const SizedBox(width: 4),
               Text(
                 'INTERPRETASI PSIKOMETRIK',
@@ -308,7 +334,8 @@ class HasilTesView extends StatelessWidget {
             children: [
               for (final t in vm.traits)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                     color: LoginColors.background,
                     borderRadius: BorderRadius.circular(999),
@@ -395,7 +422,8 @@ class HasilTesView extends StatelessWidget {
             iconFg: _careerIconFg,
             title: 'Top Karir Rekomendasi',
             subtitle: 'Kesesuaian jalur profesional masa depan',
-            trailing: const Icon(Icons.trending_up_rounded, size: 18, color: LoginColors.textMuted),
+            trailing: const Icon(Icons.trending_up_rounded,
+                size: 18, color: LoginColors.textMuted),
           ),
           const SizedBox(height: 16),
           for (var i = 0; i < vm.careers.length; i++) ...[
@@ -462,7 +490,8 @@ class HasilTesView extends StatelessWidget {
             children: [
               for (final t in c.tags)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     color: _tagBg,
                     borderRadius: BorderRadius.circular(6),
@@ -574,64 +603,8 @@ class HasilTesView extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              const Icon(Icons.arrow_forward_ios_rounded, size: 10, color: LoginColors.link),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBottomNav(BuildContext context) {
-    const items = [
-      (Icons.home_outlined, 'Beranda'),
-      (Icons.history_rounded, 'Riwayat'),
-      (Icons.person_outline_rounded, 'Profil'),
-    ];
-
-    return Container(
-      decoration: BoxDecoration(
-        color: LoginColors.background,
-        border: Border(
-          top: BorderSide(color: LoginColors.divider.withValues(alpha: 0.6)),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: SizedBox(
-          height: 64,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              for (final item in items)
-                InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  // TODO: pilih tab Riwayat/Profil di HomeView setelah kembali.
-                  onTap: () => Navigator.of(context).popUntil((r) => r.isFirst),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 40,
-                          height: 28,
-                          child: Icon(item.$1, size: 20, color: LoginColors.textMuted),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          item.$2,
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 10,
-                            height: 14 / 10,
-                            fontWeight: FontWeight.w700,
-                            color: LoginColors.textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              const Icon(Icons.arrow_forward_ios_rounded,
+                  size: 10, color: LoginColors.link),
             ],
           ),
         ),

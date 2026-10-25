@@ -27,6 +27,7 @@ class SoalTesViewModel extends ChangeNotifier {
   ];
 
   static const pageSize = 10;
+  static const questionLimit = 10;
 
   static const _bank = <String, List<String>>{
     'I': [
@@ -108,7 +109,7 @@ class SoalTesViewModel extends ChangeNotifier {
     for (var i = 0; i < 10; i++)
       for (final c in const ['I', 'R', 'A', 'S', 'E', 'C'])
         RiasecQuestion(c, _bank[c]![i]),
-  ];
+  ].take(questionLimit).toList();
 
   late final List<int?> _answers = List<int?>.filled(questions.length, null);
   int _index = 0;
