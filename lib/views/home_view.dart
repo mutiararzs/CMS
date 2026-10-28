@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/login_colors.dart';
+import '../widgets/app_logo.dart';
 import '../viewmodels/home_viewmodel.dart';
 import '../viewmodels/informasi_tes_viewmodel.dart';
 import 'informasi_tes_view.dart';
@@ -69,17 +70,7 @@ class _HomeViewState extends State<HomeView> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           children: [
-            Image.asset(
-              'assets/images/logo-peta-masa-depanku.png',
-              width: 32,
-              height: 32,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const Icon(
-                Icons.explore,
-                size: 32,
-                color: LoginColors.link,
-              ),
-            ),
+            AppLogo(size: 32),
             const SizedBox(width: 30),
             Text(
               'Beranda',
@@ -214,7 +205,7 @@ class _HomeViewState extends State<HomeView> {
               bottom: 56,
               child: Opacity(
                 opacity: 0.2,
-                child: Icon(Icons.explore_outlined, size: 120, color: LoginColors.accent),
+                child: AppLogo(size: 120),
               ),
             ),
             Column(

@@ -384,7 +384,7 @@ class SoalTesView extends StatelessWidget {
   }
 
   Widget _buildBottomBar(BuildContext context, SoalTesViewModel vm) {
-    final label = vm.isLast ? 'KIRIM JAWABAN' : 'Selanjutnya';
+    final label = vm.isLast ? 'KIRIM JAWABAN' : 'SELANJUTNYA';
 
     return Container(
       color: LoginColors.background,

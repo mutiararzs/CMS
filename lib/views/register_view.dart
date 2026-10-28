@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/login_colors.dart';
+import '../widgets/app_logo.dart';
 import '../utils/validators.dart';
 import '../viewmodels/register_viewmodel.dart';
 import '../widgets/auth_text_field.dart';
@@ -128,17 +129,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildHeader() {
     return Column(
       children: [
-        Image.asset(
-          'assets/images/logo-peta-masa-depanku.png',
-          width: 104,
-          height: 104,
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => const Icon(
-            Icons.explore,
-            size: 104,
-            color: LoginColors.link,
-          ),
-        ),
+        AppLogo(size: 104),
         const SizedBox(height: 24),
         Text(
           'Buat Akun Baru',

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/login_colors.dart';
+import '../widgets/app_logo.dart';
 import '../viewmodels/infoprib_viewmodel.dart';
 import '../viewmodels/profile_viewmodel.dart';
 import 'infoprib_view.dart';
@@ -107,17 +108,7 @@ class _ProfilViewState extends State<ProfilView> {
           children: [
             Row(
               children: [
-                Image.asset(
-                  'assets/images/logo-peta-masa-depanku.png',
-                  width: 32,
-                  height: 32,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const Icon(
-                    Icons.explore,
-                    size: 32,
-                    color: LoginColors.link,
-                  ),
-                ),
+                AppLogo(size: 32),
                 const SizedBox(width: 8),
                 Text(
                   'Profil',

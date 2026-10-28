@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/login_colors.dart';
+import '../widgets/app_logo.dart';
 import '../utils/validators.dart';
 import '../viewmodels/home_viewmodel.dart';
 import '../viewmodels/login_viewmodel.dart';
@@ -104,17 +105,7 @@ class _LoginViewState extends State<LoginView> {
   Widget _buildHeader() {
     return Column(
       children: [
-        Image.asset(
-          'assets/images/logo-peta-masa-depanku.png',
-          width: 104,
-          height: 104,
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => const Icon(
-            Icons.explore,
-            size: 104,
-            color: LoginColors.link,
-          ),
-        ),
+        AppLogo(size: 104),
         const SizedBox(height: 24),
         Text(
           'Selamat Datang Kembali',

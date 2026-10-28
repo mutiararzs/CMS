@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -108,80 +110,85 @@ class InformasiTesView extends StatelessWidget {
   }
 
   Widget _buildHeader(InformasiTesViewModel vm) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(32),
+      child: Container(
+        width: double.infinity,
         color: LoginColors.card,
-        borderRadius: BorderRadius.circular(32),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // TODO: ganti dengan ilustrasi asli dari assets/images/.
-          Container(
-            width: 144,
-            height: 144,
-            decoration: BoxDecoration(
-              color: LoginColors.accent,
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: const Icon(
-              Icons.psychology_alt_rounded,
-              size: 64,
-              color: LoginColors.link,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: LoginColors.divider,
-              borderRadius: BorderRadius.circular(999),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 6,
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: LoginColors.link,
+        padding: const EdgeInsets.all(24),
+        child: Stack(
+          children: [
+            // Cahaya biru lembut di pojok kanan atas (sesuai desain)
+            Positioned(
+              top: -56,
+              right: -56,
+              child: ImageFiltered(
+                imageFilter: ImageFilter.blur(sigmaX: 32, sigmaY: 32),
+                child: Container(
+                  width: 160,
+                  height: 160,
+                  decoration: BoxDecoration(
+                    color: LoginColors.accent.withValues(alpha: 0.28),
                     shape: BoxShape.circle,
                   ),
                 ),
-                const SizedBox(width: 6),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: LoginColors.divider,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: const BoxDecoration(
+                          color: LoginColors.link,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        vm.badge,
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: LoginColors.link,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
                 Text(
-                  vm.badge,
+                  vm.title,
                   style: GoogleFonts.plusJakartaSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: LoginColors.link,
+                    fontSize: 22,
+                    height: 30 / 22,
+                    fontWeight: FontWeight.w700,
+                    color: LoginColors.textDark,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  vm.description,
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 14,
+                    height: 22.75 / 14,
+                    color: LoginColors.textMuted,
                   ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            vm.title,
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 22,
-              height: 30 / 22,
-              fontWeight: FontWeight.w700,
-              color: LoginColors.textDark,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            vm.description,
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 14,
-              height: 22.75 / 14,
-              color: LoginColors.textMuted,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
